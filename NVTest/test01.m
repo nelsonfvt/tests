@@ -1,6 +1,6 @@
 %% Inicio
 [rows,cols]=size(DDHr);
-t_vecs=find(WNueLi);
+t_vecs=[1:216];%find(WNueLi);
 
 %% Submuestreo impares
 ps=1:2:rows;
@@ -32,15 +32,19 @@ end
 
 % 1 contra todos
 res=[];
-ul=ddLRs(1,:);
-uh=ddHRs(1,:);
+ul=ddLRs(:,1);
+uh=ddHRs(:,1);
 for i=2:length(t_vecs)
     %LR
-    vl=ddLRs(i,:);
+    vl=ddLRs(:,i);
     ct=dot(ul,vl)/(norm(ul)*norm(vl));
     res(1,i-1)=acosd(ct);
     %HR
-    vh=ddHRs(i,:);
+    vh=ddHRs(:,i);
     ct=dot(uh,vh)/(norm(uh)*norm(vh));
     res(2,i-1)=acosd(ct);
 end
+
+re=res(2,:)-res(1,:);
+mu=mean(re.^2)
+sd=std(re)
