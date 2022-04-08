@@ -33,3 +33,14 @@ for i=2:cols
     c=cov(aa);
     chr(i-1)=c(2,1);
 end
+
+%Encontrar las covarianzas mas parecidas
+nf=length(clr);
+nc=length(chr);
+Arr=zeros(nf,nc);
+for f=1:nf
+    for c=1:nc
+        Arr(f,c)=abs(clr(f)-chr(c));
+    end
+end
+[M,I]=min(Arr,[],2);
