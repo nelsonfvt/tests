@@ -23,3 +23,5 @@ for k=1:n_per
     vals(:,k)=dot(cov_base,covs);
 end
 [m,I]=max(vals);
+A=B_per(:,:,I);
+A_p=pinv(A);
