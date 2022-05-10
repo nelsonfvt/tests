@@ -9,8 +9,9 @@ function [dicc_perm] = permutaciones(dicc)
 
 v=[1:n_elem]; % numero de elementos para permutar
 C=perms(v);
-ns=1:5:length(C(:,1));
-C=C(ns,:);
+C=[C sortrows(C,[1 2])];
+% ns=1:20:length(C(:,1));
+% C=C(ns,:);
 n_per=length(C(:,1));
 B_perm=zeros(rows,cols,n_per);
 

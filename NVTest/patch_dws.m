@@ -13,7 +13,7 @@ for i=1:n_patch
     pch3d=reshape(HRdicc(:,i),[6,6,6]); %parche 6x6x6
     pchint=interp3(pch3d,Xq,Yq,Zq); %interpolando a parche 3x3x3
     LRdicc(:,i)=reshape(pchint,[3*3*3,1]);
-    LRdicc(:,i)=LRdicc(:,i)/norm(LRdicc(:,i)); %vectores unitarios
+    %LRdicc(:,i)=LRdicc(:,i)/norm(LRdicc(:,i)); %vectores unitarios
 end
 end
 

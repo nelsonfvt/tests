@@ -9,16 +9,18 @@ function [B_sim] = pch_sim(dd,DD)
 
 [drows,dcols]=size(dd);
 [~,Dcols]=size(DD);
+n_sim = dcols/2;
 
 dists=zeros(dcols,Dcols);
-B_sim=zeros(drows,dcols,dcols);
+B_sim=zeros(drows,dcols,n_sim);
 for i=1:dcols
     for j=1:Dcols
-        dists(i,j)=dot(dd(:,i),DD(:,j));
+        %dists(i,j)=dot(dd(:,i),DD(:,j));
+        dists(i,j)=norm(dd(:,i)-DD(:,j));
     end
     [~,I]=sort(dists(i,:),'descend');% ordenando desde el más parecido
-    for k=1:dcols
-        B_sim(:,i,k)=DD(:,I(k));% llenando arreglo con parches más parecidos
+    for k=1:n_sim
+        B_sim(:,i,k)=DD(:,I(k));% llenando arreglo con atomos más parecidos
     end
 end
 
