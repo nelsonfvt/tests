@@ -18,7 +18,8 @@ for i=1:dcols
         %dists(i,j)=dot(dd(:,i),DD(:,j));
         dists(i,j)=norm(dd(:,i)-DD(:,j));
     end
-    [~,I]=sort(dists(i,:),'descend');% ordenando desde el más parecido
+    %[~,I]=sort(dists(i,:),'descend');% ordenando desde el más parecido
+    [~,I]=sort(dists(i,:),'ascend');% ordenando desde el más parecido
     for k=1:n_sim
         B_sim(:,i,k)=DD(:,I(k));% llenando arreglo con atomos más parecidos
     end

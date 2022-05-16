@@ -1,5 +1,5 @@
 %% Inicio
-parches=Dhr10*WHr10; %parches originales
+parches=Dhr10*WHr10; %parches originales HR
 %Dlr10=patch_dws(Dhr10); % generando dicc LR
 [p_rows,p_cols]=size(parches);
 [rows,cols]=size(Dhr10);
@@ -20,7 +20,7 @@ for p=1:p_cols %numero de parches del volumen
     B_sim=pch_sim(pcHR,Dhr10); %buscando atomos similares
     B_per=permutaciones(B_sim); %permutaciones
     vals = covars(pcHR,B_per); %covarianzas
-    [~,I(p)]=max(vals);
+    [~,I(p)]=min(vals); %min porque son dist euclid.
     A(:,:,p)=B_per(:,:,I(p));
 end
 
