@@ -18,40 +18,30 @@ ix=find(stats.cluster==7); % Seleccionando un cluster
 difs = my_difers(stats.vox(ix,:));
 clear ix
 
-%% Generar diferentes configuraciones
-% Se toma un voxel (aleatorio?)
+%% Generar diferentes configuraciones (voxeles)
+% Se toman un voxel (aleatorio)
 clc
 i_vx = randperm(length(difs(:,1,1)),1);
-vx = reshape(difs(i_vx,:,:), [30 30]);
+vx1 = reshape(difs(i_vx(1),:,:), [30 30]);
 
-% sacar gradientes aleatorios (filas y columnas)
-% 1 por ahora
-i_gr = sort(randperm(30,1));%round(length(vx(:,1)) * rand(7,1));
-D1 = vx;
+%% Generar diferentes configuraciones (ex gradientes)
+% sacar gradientes diferentes aleatorios (filas y columnas)
+i_gr = sort(randperm(30,1));
+D1 = vx1;
 D1(i_gr,:) = [];
 D1(:,i_gr) = [];
 
-j_gr = sort(randperm(30,1));%round(length(vx(:,1)) * rand(7,1));
-D2 = vx;
+j_gr = sort(randperm(30,1));
+D2 = vx1;
 D2(j_gr,:) = [];
 D2(:,j_gr) = [];
 
 %% Calculo covarianzas y comparación
 %C = my_covars(difs);
-
 D1 = D1(1,:);
-D2 = D2(2,:);
+D2 = D2(1,:);
 C1 = my_covar(D1);
 C2 = my_covar(D2);
-
-% tomando el primer voxel
-% D1 = D1(1,:);
-% %D1 = D1(1,:);
-% C1 = cov(D1);%my_covar(D1);
-% % tomando el segundo voxel
-% D2 = D2(1,:);%reshape(difs(2,:,:),[30 30]);
-% %D2 = D2(1,:);
-% C2 = cov(D2);%my_covar(D2);
  
 % generando descomposición matricial
 [X1,s1,~] = svd(C1);
@@ -63,7 +53,7 @@ V22 = D2*X2(:,1);
 V12 = D1*X2(:,1);
 V21 = D2*X1(:,1);
 
-% cálculo metricas
+% cálculo S-statistics
 S1 = 2*sum((V11-V21).^2 + (V12-V22).^2);
 S2 = sum(((V11+V22) - (V12+V21)).^2);
 S3 = sum(((V11+V12) - (V21+V22)).^2);
@@ -76,7 +66,8 @@ fprintf(['S1: ' formatSpec],S1)
 fprintf(['S2: ' formatSpec],S2)
 fprintf(['S3: ' formatSpec],S3)
 fprintf(['Pr_p: ' formatSpec],d_pr)
-%% funciones auxiliares
+
+%% Funciones auxiliares
 function [stats] = my_preprocess(gen_path)
 %Funcion para realizar la carga de datos y preprocesamiento:
 %   
@@ -140,21 +131,6 @@ for k = 1:fil %
 end
 end
 
-function [C]=my_covars(A)
-%Función para calcular las matrices de covarianza del arreglo 3D
-%Input:
-%   A:Arreglo 3D
-%Output:
-%   C:Matrices de covarianza de cada pagina de A
-[fil,col,pag]=size(A);
-C=zeros(col,pag,fil);
-
-for i=1:fil
-    B = reshape(A(i,:,:),[30 30]);
-    C(:,:,i) = cov(B);
-end
-end
-
 function [Mx] = my_covar(Arr)
 %Función para calcular la matriz covarianza de un vector
 %Input:
@@ -166,4 +142,3 @@ At=Arr'-m;
 A=Arr-m;
 Mx=(At*A)./length(A)-1;
 end
-
